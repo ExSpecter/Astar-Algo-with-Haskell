@@ -43,3 +43,9 @@ getTarget (_, _, p) = p
 
 nodeAt :: Map -> Point -> Node
 nodeAt (nodes, _, _) p = head [n | n <- nodes, pos n == p]
+
+getF :: Node -> Integer
+getF n = f n
+
+getPos :: Node -> Point
+getPos n = pos n
