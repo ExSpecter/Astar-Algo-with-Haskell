@@ -1,16 +1,28 @@
 module Map (
-    Node(Node)
+    Node(Node),
     Map,
-    fromFile
+    parse
 ) where
 
-import System.IO
+import Data.List.Split
 
-data Map = Map String
-data Tile = Start | Target | Wall | Empty
+type Map = ([Node], Point, Point)
+type Point = (Integer, Integer)
 
-fromFile :: String -> Map
-fromFile file = Map (readFile file)
+data Node = Node {f::Integer, g::Integer, h::Integer, pos::Point}
+          | Wall {pos::Point}
+    deriving(Eq, Show)
 
-data Node a = Node {f::Integer, g::Integer, h::Integer, pos::a}
-Map :: [[Node]]
+parse :: String -> Map
+parse s =
+    let
+        rows = splitOn "\n" s
+        rawNodes = concat [map (\(x, a) -> (a, (x, y))) (zip [0..] row) | (y, row) <- zip [0..] rows]
+        start = head [pos | (c, pos) <- rawNodes, c == 's']
+        end = head [pos | (c, pos) <- rawNodes, c == 'x']
+    in
+        (map toNode rawNodes, start, end)
+
+toNode :: (Char, Point) -> Node
+toNode ('#', p) = Wall p
+toNode (c, p) = Node 0 0 0 p

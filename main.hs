@@ -1,6 +1,11 @@
 module Main where
-import Tree
-import Map (fromFile)
+import Map
 
+import System.IO
 
-map = fromFile "./maps/simple"
+main = do
+    file <- readFile "./maps/simple"
+    putStr (show (createMap file))
+
+createMap :: String -> Map
+createMap map = parse map
