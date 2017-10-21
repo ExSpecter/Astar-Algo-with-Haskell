@@ -1,6 +1,7 @@
 module Map (
     Node(Node),
     Map,
+    Point,
     parse,
     getNodes,
     getStart,

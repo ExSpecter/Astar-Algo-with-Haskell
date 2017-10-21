@@ -1,5 +1,6 @@
 module Main where
 import Map
+import AAlgorithm
 
 import System.IO
 
