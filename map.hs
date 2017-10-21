@@ -4,7 +4,8 @@ module Map (
     parse,
     getNodes,
     getStart,
-    getTarget
+    getTarget,
+    nodeAt
 ) where
 
 import Data.List.Split
@@ -38,3 +39,6 @@ getStart (_, p, _) = p
 
 getTarget :: Map -> Point
 getTarget (_, _, p) = p
+
+nodeAt :: Map -> Point -> Node
+nodeAt (nodes, _, _) p = head [n | n <- nodes, pos n == p]
