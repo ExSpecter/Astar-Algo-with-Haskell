@@ -59,7 +59,7 @@ removeWall :: [Node] -> [Node]
 removeWall [] = []
 removeWall ((Wall _):rest) = removeWall rest
 removeWall (a:rest) = (a:(removeWall rest))
---removeWall (a@(Node f _ _ _):rest) = if f == 0 then (a:(removeWall rest)) else removeWall rest
+--removeWall (a@(Node f _ _ _ _):rest) = if f == 0 then (a:(removeWall rest)) else removeWall rest
 
 calcNodeCosts :: Map -> Node ->[Node] -> [Node]
 calcNodeCosts allNodes currentNode [] = []
@@ -68,10 +68,11 @@ calcNodeCosts allNodes currentNode (x:xs) =
 
 calcNodeCostsHelper :: Map -> Node -> Point -> Node
 calcNodeCostsHelper allNodes currentNode point =
-  let g = (getG currentNode) + 1
+  let weight = getWeight currentNode
+      g = (getG currentNode) + weight
       h = calcDistance point (getTarget allNodes)
       f = g + h
-  in Node f g h point
+  in Node f g h point weight
 
-calcDistance :: Point -> Point -> Integer
+calcDistance :: Point -> Point -> Int
 calcDistance (x,y) (xs, ys) = abs (x - xs) + abs (y - ys)

@@ -5,5 +5,5 @@ import AAlgorithm
 import System.IO
 
 main = do
-    file <- readFile "./maps/difficult2"
-    let m = parse file in putStr (toString m (startAlgorithm m))
+    file <- readFile "./maps/weights"
+    let m = parse file in putStr (show (m))

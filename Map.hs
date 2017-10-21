@@ -8,20 +8,22 @@ module Map (
     getTarget,
     nodeAt,
     nodeAtMaybe,
-    getPos,
     getF,
     getG,
     getH,
+    getPos,
+    getWeight,
     toString
 ) where
 
+import Data.Char
 import Data.List
 import Data.List.Split
 
 type Map = ([Node], Point, Point)
-type Point = (Integer, Integer)
+type Point = (Int, Int)
 
-data Node = Node {f::Integer, g::Integer, h::Integer, pos::Point}
+data Node = Node {f::Int, g::Int, h::Int, pos::Point, weight::Int}
           | Wall {pos::Point}
     deriving(Eq, Show)
 
@@ -37,7 +39,9 @@ parse s =
 
 toNode :: (Char, Point) -> Node
 toNode ('#', p) = Wall p
-toNode (c, p) = Node 0 0 0 p
+toNode (c, p)
+    | isHexDigit c = Node 0 0 0 p (digitToInt c)
+    | otherwise = Node 0 0 0 p 1
 
 getNodes :: Map -> [Node]
 getNodes (nodes, _, _) = nodes
@@ -56,17 +60,20 @@ nodeAtMaybe (nodes, _, _) p =
   let nodeList = [n | n <- nodes, pos n == p]
   in if (length nodeList) == 0 then Nothing else Just (head nodeList)
 
-getF :: Node -> Integer
+getF :: Node -> Int
 getF n = f n
 
-getG :: Node -> Integer
+getG :: Node -> Int
 getG n = g n
 
-getH :: Node -> Integer
+getH :: Node -> Int
 getH n = h n
 
 getPos :: Node -> Point
 getPos n = pos n
+
+getWeight :: Node -> Int
+getWeight n = weight n
 
 toString :: Map -> [Node] -> String
 toString m@(nodes, start, end) path =
