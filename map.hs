@@ -1,7 +1,10 @@
 module Map (
     Node(Node),
     Map,
-    parse
+    parse,
+    getNodes,
+    getStart,
+    getTarget
 ) where
 
 import Data.List.Split
@@ -19,10 +22,19 @@ parse s =
         rows = splitOn "\n" s
         rawNodes = concat [map (\(x, a) -> (a, (x, y))) (zip [0..] row) | (y, row) <- zip [0..] rows]
         start = head [pos | (c, pos) <- rawNodes, c == 's']
-        end = head [pos | (c, pos) <- rawNodes, c == 'x']
+        target = head [pos | (c, pos) <- rawNodes, c == 'x']
     in
-        (map toNode rawNodes, start, end)
+        (map toNode rawNodes, start, target)
 
 toNode :: (Char, Point) -> Node
 toNode ('#', p) = Wall p
 toNode (c, p) = Node 0 0 0 p
+
+getNodes :: Map -> [Node]
+getNodes (nodes, _, _) = nodes
+
+getStart :: Map -> Point
+getStart (_, p, _) = p
+
+getTarget :: Map -> Point
+getTarget (_, _, p) = p
