@@ -11,7 +11,8 @@ module Map (
     getPos,
     getF,
     getG,
-    getH
+    getH,
+    toString
 ) where
 
 import Data.List
@@ -66,3 +67,23 @@ getH n = h n
 
 getPos :: Node -> Point
 getPos n = pos n
+
+toString :: Map -> [Node] -> String
+toString m@(nodes, start, end) path =
+    let width = maximum (map (\n -> fst (pos n)) nodes)
+        height = maximum (map (\n -> snd (pos n)) nodes)
+        ps = map pos path
+        positions :: [[Point]]
+        positions = [[(x,y) | x <- [0..width]] | y <- [0..height]]
+    in
+        intercalate "\n" (map (\row -> map (\p -> positionToChar m ps p) row) positions)
+
+positionToChar :: Map -> [Point] -> Point -> Char
+positionToChar m path p
+    | p `elem` path = '*'
+    | otherwise = nodeToChar (nodeAtMaybe m p)
+
+nodeToChar :: Maybe Node -> Char
+nodeToChar (Nothing) = '?'
+nodeToChar (Just (Wall _)) = '#'
+nodeToChar _ = ' '

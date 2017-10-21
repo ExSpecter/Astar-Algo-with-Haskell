@@ -5,8 +5,5 @@ import AAlgorithm
 import System.IO
 
 main = do
-    file <- readFile "./maps/simple"
-    putStr (show (startAlgorithm (createMap file)))
-
-createMap :: String -> Map
-createMap map = parse map
+    file <- readFile "./maps/difficult2"
+    let m = parse file in putStr (toString m (startAlgorithm m))
