@@ -9,9 +9,12 @@ module Map (
     nodeAt,
     nodeAtMaybe,
     getPos,
-    getF
+    getF,
+    getG,
+    getH
 ) where
 
+import Data.List
 import Data.List.Split
 
 type Map = ([Node], Point, Point)
@@ -54,6 +57,12 @@ nodeAtMaybe (nodes, _, _) p =
 
 getF :: Node -> Integer
 getF n = f n
+
+getG :: Node -> Integer
+getG n = g n
+
+getH :: Node -> Integer
+getH n = h n
 
 getPos :: Node -> Point
 getPos n = pos n
