@@ -1,12 +1,15 @@
 module Map (
-    Node(Node),
+    Node(Node, Wall),
     Map,
     Point,
     parse,
     getNodes,
     getStart,
     getTarget,
-    nodeAt
+    nodeAt,
+    nodeAtMaybe,
+    getPos,
+    getF
 ) where
 
 import Data.List.Split
@@ -43,6 +46,11 @@ getTarget (_, _, p) = p
 
 nodeAt :: Map -> Point -> Node
 nodeAt (nodes, _, _) p = head [n | n <- nodes, pos n == p]
+
+nodeAtMaybe :: Map -> Point -> Maybe Node
+nodeAtMaybe (nodes, _, _) p =
+  let nodeList = [n | n <- nodes, pos n == p]
+  in if (length nodeList) == 0 then Nothing else Just (head nodeList)
 
 getF :: Node -> Integer
 getF n = f n
