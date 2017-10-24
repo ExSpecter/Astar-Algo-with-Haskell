@@ -16,8 +16,8 @@ getShortPath closedNodes currentNode =
   let surrNodes = getSurrNodes closedNodes currentNode
   in  if (length surrNodes) == 0 then [(nodeAt closedNodes currentNode)]
     else let nextNode = searchMinNodeBack surrNodes
-          in  if  (getPos nextNode) == (getStart closedNodes) then [nextNode]
-              else (nextNode:(getShortPath closedNodes (getPos nextNode)))
+          in  if  (getPos nextNode) == (getStart closedNodes) then ((nodeAt closedNodes currentNode):[nextNode])
+              else ((nodeAt closedNodes currentNode):(getShortPath closedNodes (getPos nextNode)))
 
 algorithm :: Map -> [Node] -> [Node]
 algorithm allNodes [] = []
@@ -68,7 +68,7 @@ calcNodeCosts allNodes currentNode (x:xs) =
 
 calcNodeCostsHelper :: Map -> Node -> Point -> Node
 calcNodeCostsHelper allNodes currentNode point =
-  let weight = getWeight currentNode
+  let weight = getWeight (nodeAt allNodes point)
       g = (getG currentNode) + weight
       h = calcDistance point (getTarget allNodes)
       f = g + h
