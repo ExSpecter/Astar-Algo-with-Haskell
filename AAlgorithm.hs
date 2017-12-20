@@ -53,6 +53,7 @@ searchMinNodeBack (first:rest) =
       then first
       else nextNode
 
+-- search min node
 searchMinNode :: [Node] -> Node
 searchMinNode [x] = x
 searchMinNode (first:rest) =  
