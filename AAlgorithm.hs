@@ -22,11 +22,12 @@ getShortPath closedNodes currentNode =
   then []
   else
     let surrNodes = getSurrNodes closedNodes currentNode
-    in if null surrNodes then [nodeAt closedNodes currentNode]
+        node = nodeAt closedNodes currentNode
+    in if null surrNodes then [node]
       else let nextNode = searchMinNodeBack surrNodes
             in  if   getPos nextNode == getStart closedNodes
-                then (nodeAt closedNodes currentNode):[nextNode]
-                else (nodeAt closedNodes currentNode):(getShortPath closedNodes (getPos nextNode))
+                then node:[nextNode]
+                else node:(getShortPath closedNodes (getPos nextNode))
 
 -- a* algorithm
 algorithm :: Map -> [Node] -> [Node]
