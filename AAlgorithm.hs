@@ -18,12 +18,15 @@ startAlgorithm m =
 -- finds the shortest path (from target to start)
 getShortPath :: Map -> Point -> [Node]
 getShortPath closedNodes currentNode =
-  let surrNodes = getSurrNodes closedNodes currentNode
-  in if null surrNodes then [nodeAt closedNodes currentNode]
-     else let nextNode = searchMinNodeBack surrNodes
-          in  if   getPos nextNode == getStart closedNodes
-              then (nodeAt closedNodes currentNode):[nextNode]
-              else (nodeAt closedNodes currentNode):(getShortPath closedNodes (getPos nextNode))
+  if   nodeAtMaybe closedNodes currentNode == Nothing
+  then []
+  else
+    let surrNodes = getSurrNodes closedNodes currentNode
+    in if null surrNodes then [nodeAt closedNodes currentNode]
+      else let nextNode = searchMinNodeBack surrNodes
+            in  if   getPos nextNode == getStart closedNodes
+                then (nodeAt closedNodes currentNode):[nextNode]
+                else (nodeAt closedNodes currentNode):(getShortPath closedNodes (getPos nextNode))
 
 -- a* algorithm
 algorithm :: Map -> [Node] -> [Node]
