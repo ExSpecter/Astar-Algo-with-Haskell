@@ -1,19 +1,19 @@
 # WeitereProg
 
-# Terminal
+## Terminal
 ```
 runhaskell main.hs
 ```
 
-# GUI
-## Installation
+## GUI
+### Installation
 
 ```
 cabal sandbox init
 cabal install
 ```
 
-## Ausführen
+### Ausführen
 
 ```
 cabal run
